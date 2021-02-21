@@ -8,7 +8,7 @@ namespace ES.InteractionSys
  public class InteractableObject : MonoBehaviour
 {
     private void Start() {
-        gameObject.layer = GameManager.interactionManager.interactionLayer;
+        //gameObject.layer = GameManager.interactionManager.interactionLayer;
     }
     
     private void Update() {

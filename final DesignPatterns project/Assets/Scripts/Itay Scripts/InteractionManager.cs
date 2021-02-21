@@ -12,7 +12,6 @@ namespace ES.InteractionSys  {
         {
             if (interactionLayer == 0){                
                 interactionLayer = LayerMask.NameToLayer("Interactable");
-                Debug.Log(LayerMask.LayerToName(interactionLayer));
             }
             
         }

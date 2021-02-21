@@ -4,28 +4,21 @@ using UnityEngine;
 
 namespace ES.InteractionSys
 {
-public class Key : Switch, iPickable, iLookable
-{
-        public void GetPicked()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        void iLookable.GetLookedAt()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        // Start is called before the first frame update
-        void Start()
+    public class Key : InteractableObject, iPickable, iLookable
     {
-        
-    }
+            [SerializeField] Door iOpen;
+            public void GetPicked()
+            {
+                iOpen.StateTransition(new UnlockedDoorWithUI(iOpen));
+                // access ui
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+                gameObject.SetActive(false);
+            }
+
+            public void GetLookedAt()
+            {
+                GameManager.uIHelper.ShowText("It's a key...");
+            }
+
     }
-}
-}
+}   

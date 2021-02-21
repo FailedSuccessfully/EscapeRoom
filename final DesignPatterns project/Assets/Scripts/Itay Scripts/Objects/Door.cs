@@ -14,27 +14,32 @@ namespace ES.InteractionSys{
         // Start is called before the first frame update
         void Start()
         {
-            this._state = new LockedDoor();
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            this._state = new LockedDoor(this);
         }
         public void GetLookedAt()
         {
-            //throw new System.NotImplementedException();
+            GameManager.uIHelper.ShowText("It's a door...");
         }
 
-        void iTouchable.GetTouched()
+        public void GetTouched()
         {
             this._state.HandleTouch();
+        }
+        private void Update() {
+        }
+
+        internal void OpenSelf(){
+            gameObject.SetActive(false);
+
         }
     }
 
     public abstract class DoorState{
         protected Door _context;
+
+        public DoorState(Door context){
+            this._context = context;
+        }
 
         public void SetContext(Door context){
             this._context = context;
@@ -46,26 +51,38 @@ namespace ES.InteractionSys{
 
     public class LockedDoor : DoorState
     {
+        public LockedDoor(Door context) : base(context)
+        {
+        }
+
         public override void HandleTouch()
         {
-            // do nothing / alert UI
+            GameManager.uIHelper.ShowText("Locked...");
         }
     }
 
     public class UnlockedDoor : DoorState
     {
+        public UnlockedDoor(Door context) : base(context)
+        {
+        }
+
         public override void HandleTouch()
         {
-            // open door
+            _context.OpenSelf();
         }
     }
 
     public class UnlockedDoorWithUI : UnlockedDoor
     {
+        public UnlockedDoorWithUI(Door context) : base(context)
+        {
+        }
+
         public override void HandleTouch()
         {
             // open door
-            (this as UnlockedDoor).HandleTouch();
+            base.HandleTouch();
 
             // access ui
         }

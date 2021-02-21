@@ -3,28 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace ES.InteractionSys
 {
-public class Switch : MonoBehaviour, iLookable, iTouchable
+public class Switch : InteractableObject, iLookable, iTouchable
 {
+        [SerializeField] Door iOpen;
         public void GetLookedAt()
         {
-            throw new System.NotImplementedException();
+            GameManager.uIHelper.ShowText("It's a switch...");
         }
 
         public void GetTouched()
         {
-            throw new System.NotImplementedException();
+            iOpen.StateTransition(new UnlockedDoor(iOpen));
         }
-
-        // Start is called before the first frame update
-        void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
 }

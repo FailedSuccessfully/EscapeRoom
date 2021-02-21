@@ -7,13 +7,18 @@ using ES.InteractionSys;
 public class UIHelper : MonoBehaviour
 {
     [SerializeField] Canvas playerCanvas;
+    [SerializeField] GridLayoutGroup muhGrid;
+    [SerializeField] Text muhText;
     [SerializeField] private GameObject btnPref;
 
     // Start is called before the first frame update
     void Start()
     {
         playerCanvas = GetComponentInChildren<Canvas>();
-        playerCanvas.gameObject.SetActive(false);
+        muhGrid = playerCanvas.GetComponent<GridLayoutGroup>();
+        muhText = playerCanvas.GetComponentInChildren<Text>();
+        muhGrid.enabled = muhText.enabled = false;
+        
     }
 
     // Update is called once per frame
@@ -23,13 +28,11 @@ public class UIHelper : MonoBehaviour
     }
 
     public void ShowMenu(InteractableObject target){
-        if (!playerCanvas.gameObject.activeSelf) {
             GameManager.player.myView.ToggleLock();
+            muhGrid.enabled = true;
             BuildMenu(target);
-            playerCanvas.gameObject.SetActive(true);
             playerCanvas.transform.rotation = Quaternion.identity;
             playerCanvas.transform.localScale = Vector3.one;
-        }
     }
 
     public void CloseMenu(){
@@ -38,7 +41,7 @@ public class UIHelper : MonoBehaviour
         for (int i = 0; i < btns.Length; i++){
             Destroy(btns[i].gameObject);
         }
-        playerCanvas.gameObject.SetActive(false);
+        muhGrid.enabled = false;
     }
 
     void BuildMenu(InteractableObject target){
@@ -51,7 +54,7 @@ public class UIHelper : MonoBehaviour
 
         }
         if (target is iPickable _p) {
-            CreateButton("Look", _p.GetPicked);
+            CreateButton("Pick", _p.GetPicked);
         }
     }
 
@@ -62,10 +65,15 @@ public class UIHelper : MonoBehaviour
         Button button = buttonObj.GetComponent<Button>();
         button.onClick.AddListener(action);
         button.onClick.AddListener(CloseMenu);
-        /*
-        Button b = playerCanvas.gameObject.AddComponent<Button>();
-        b.gameObject.AddComponent<Text>().text = text;
-        b.onClick.AddListener(action);
-        */
+    }
+
+    public void ShowText(string text){
+        muhText.text = text;
+        muhText.enabled = true;
+        Invoke("HideText", 3f);
+    }
+
+    private void HideText(){
+        muhText.enabled = false;
     }
 }

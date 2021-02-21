@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ES.InteractionSys
 {
     public interface iLookable
-    {    
+    {
         void GetLookedAt();
     }
  
